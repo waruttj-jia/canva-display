@@ -64,30 +64,43 @@
 </head>
 <body>
 
-<div class="mySlides fade">
-    <img src="images/pic1.jpg">
-    <div class="text">คำอธิบายรูปที่ 1</div>
-</div>
+<div class="slideshow-container" id="slideshow">
+    </div>
 
 <script>
+    const slideshowContainer = document.getElementById('slideshow');
+    const totalImages = 10; // เปลี่ยนตัวเลขนี้ตามจำนวนรูปที่คุณมีในโฟลเดอร์
+    const folderName = 'images'; // ชื่อโฟลเดอร์ที่เก็บรูป
+    const fileExtension = 'jpg'; // นามสกุลไฟล์รูป (ต้องเหมือนกันทุกรูป)
+
+    // 1. สร้าง HTML สำหรับรูปภาพทั้งหมดอัตโนมัติ
+    for (let i = 1; i <= totalImages; i++) {
+        const slideDiv = document.createElement('div');
+        slideDiv.className = 'mySlides fade';
+        
+        // สมมติว่าตั้งชื่อรูปเป็น 1.jpg, 2.jpg ไปเรื่อยๆ
+        slideDiv.innerHTML = `
+            <img src="${folderName}/${i}.${fileExtension}">
+            <div class="text">รูปภาพที่ ${i}</div>
+        `;
+        
+        slideshowContainer.appendChild(slideDiv);
+    }
+
+    // 2. เริ่มต้นฟังก์ชัน Slideshow
     let slideIndex = 0;
     showSlides();
 
     function showSlides() {
         let i;
         let slides = document.getElementsByClassName("mySlides");
-        
         for (i = 0; i < slides.length; i++) {
             slides[i].style.display = "none";  
         }
-        
         slideIndex++;
         if (slideIndex > slides.length) {slideIndex = 1}    
-        
         slides[slideIndex-1].style.display = "block";  
-        
-        // ปรับความเร็วตรงนี้ (5000 = 5 วินาที)
-        setTimeout(showSlides, 5000); 
+        setTimeout(showSlides, 4000); // เปลี่ยนรูปทุก 4 วินาที
     }
 </script>
 
