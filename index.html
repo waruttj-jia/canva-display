@@ -1,30 +1,107 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <title>Canva Display</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: black;
-    }
-    iframe {
-      width: 100%;
-      height: 100vh;
-      border: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Screen Auto Slideshow</title>
+    <style>
+        /* ล้างค่าขอบเดิมของ Browser */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden; /* ป้องกันการ Scroll */
+            background-color: #000;
+        }
+
+        /* Container หลักให้เต็มหน้าจอ */
+        .slideshow-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* ปรับรูปภาพให้เต็มจอและคงสัดส่วน (Cover) */
+        .mySlides {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .mySlides img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* สำคัญ: ทำให้รูปเต็มจอโดยไม่เสียสัดส่วน */
+            object-position: center;
+        }
+
+        /* ข้อความด้านบน (Optional) */
+        .text {
+            color: #f2f2f2;
+            font-size: 24px;
+            padding: 8px 12px;
+            position: absolute;
+            bottom: 50px;
+            width: 100%;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-family: sans-serif;
+            z-index: 10;
+        }
+
+        /* เอฟเฟกต์การเปลี่ยนภาพแบบละมุน (Fade) */
+        .fade {
+            animation-name: fade;
+            animation-duration: 2s;
+        }
+
+        @keyframes fade {
+            from { opacity: 0.3 } 
+            to { opacity: 1 }
+        }
+    </style>
 </head>
 <body>
-<iframe
-  src="https://www.canva.com/design/DAGpW2MsYac/j5NqOiJscvg_DkKJ-9Bzrw/watch?embed"
-  allow="autoplay; fullscreen"
-  allowfullscreen>
-</iframe>
+
+<div class="slideshow-container">
+    <div class="mySlides fade">
+        <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070">
+        <div class="text">บรรยากาศยามเย็น</div>
+    </div>
+
+    <div class="mySlides fade">
+        <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=2070">
+        <div class="text">ภูเขาสุดลูกหูลูกตา</div>
+    </div>
+
+    <div class="mySlides fade">
+        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070">
+        <div class="text">ธรรมชาติอันเงียบสงบ</div>
+    </div>
+</div>
+
+<script>
+    let slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";  
+        }
+        
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}    
+        
+        slides[slideIndex-1].style.display = "block";  
+        
+        // ปรับความเร็วตรงนี้ (5000 = 5 วินาที)
+        setTimeout(showSlides, 5000); 
+    }
+</script>
 
 </body>
 </html>
