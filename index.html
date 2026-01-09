@@ -69,38 +69,52 @@
 
 <script>
     const slideshowContainer = document.getElementById('slideshow');
-    const totalImages = 10; // เปลี่ยนตัวเลขนี้ตามจำนวนรูปที่คุณมีในโฟลเดอร์
-    const folderName = 'images'; // ชื่อโฟลเดอร์ที่เก็บรูป
-    const fileExtension = 'jpg'; // นามสกุลไฟล์รูป (ต้องเหมือนกันทุกรูป)
+    const totalImages = 20; // ตั้งเผื่อไว้ได้เลย
+    const folderName = 'images';
+    const fileExtension = 'jpg';
 
-    // 1. สร้าง HTML สำหรับรูปภาพทั้งหมดอัตโนมัติ
+    // 1. สร้าง HTML พร้อมระบบดักจับ Error
     for (let i = 1; i <= totalImages; i++) {
         const slideDiv = document.createElement('div');
         slideDiv.className = 'mySlides fade';
         
-        // สมมติว่าตั้งชื่อรูปเป็น 1.jpg, 2.jpg ไปเรื่อยๆ
-        slideDiv.innerHTML = `
-            <img src="${folderName}/${i}.${fileExtension}">
-            <div class="text">รูปภาพที่ ${i}</div>
-        `;
+        const img = document.createElement('img');
+        img.src = `${folderName}/${i}.${fileExtension}`;
+        
+        // ถ้าโหลดรูปไม่สำเร็จ (ไม่มีรูป) ให้ลบ Slide นั้นออกไปเลย
+        img.onerror = function() {
+            slideDiv.remove(); 
+        };
+
+        slideDiv.appendChild(img);
+        
+        const textDiv = document.createElement('div');
+        textDiv.className = 'text';
+        textDiv.innerText = `รูปภาพที่ ${i}`;
+        slideDiv.appendChild(textDiv);
         
         slideshowContainer.appendChild(slideDiv);
     }
 
-    // 2. เริ่มต้นฟังก์ชัน Slideshow
+    // 2. เริ่มต้นฟังก์ชัน Slideshow (รอให้ DOM โหลดเสร็จนิดนึง)
     let slideIndex = 0;
-    showSlides();
+    setTimeout(showSlides, 500); // รอเผื่อรูปไหนโหลดไม่ได้จะได้โดนลบออกก่อน
 
     function showSlides() {
-        let i;
         let slides = document.getElementsByClassName("mySlides");
-        for (i = 0; i < slides.length; i++) {
+        
+        // ถ้าไม่มีรูปเหลือเลยในหน้าเว็บ ไม่ต้องทำงานต่อ
+        if (slides.length === 0) return; 
+
+        for (let i = 0; i < slides.length; i++) {
             slides[i].style.display = "none";  
         }
+        
         slideIndex++;
         if (slideIndex > slides.length) {slideIndex = 1}    
+        
         slides[slideIndex-1].style.display = "block";  
-        setTimeout(showSlides, 4000); // เปลี่ยนรูปทุก 4 วินาที
+        setTimeout(showSlides, 4000); 
     }
 </script>
 
