@@ -75,6 +75,7 @@ const fileExtension = 'jpg';
 
 // 1. สร้าง HTML พร้อมระบบดักจับ Error
 for (let i = 1; i <= totalImages; i++) {
+const fileName = i.toString().padStart(2, '0');
 const slideDiv = document.createElement('div');
 slideDiv.className = 'mySlides fade';
 
